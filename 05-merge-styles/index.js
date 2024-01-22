@@ -7,7 +7,7 @@ const styleFolder = path.resolve(__dirname, 'styles');
 fs.createWriteStream(path.resolve(styleFile));
 fs.readdir(path.resolve(styleFolder), (e, files) => {
   for (const file of files) {
-    fs.stat(path.join(styleFolder, file), (e, stats) => {
+    fs.stat(path.resolve(styleFolder, file), (e, stats) => {
       if (stats.isFile() && path.extname(file) === '.css') {
         const stream = fs.createReadStream(
           path.resolve(styleFolder, file),
