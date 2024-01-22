@@ -7,7 +7,6 @@ for (const fileName of fileNamesArr) {
   fs.createWriteStream(path.resolve(rootFolder, fileName));
 }
 
-// ASSETS FOLDER
 const assetNewFolder = path.resolve(rootFolder, 'assets');
 const assetOldFolder = path.resolve(__dirname, 'assets');
 fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
@@ -15,7 +14,7 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
     throw e;
   }
 
-  // Заменяем теги в HTML
+  // заменяем теги в хтмл
   const HTMLtags = ['header', 'articles', 'footer', 'about'];
   const fileTemplate = path.resolve(__dirname, 'template.html');
   const fileIndex = path.resolve(rootFolder, 'index.html');
@@ -58,7 +57,7 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
     console.log('The templated tags are well replaced.');
   });
 
-  // Объединяем стили
+  // объединяем стили
   const styleFolder = path.resolve(__dirname, 'styles');
   fs.readdir(styleFolder, (e, files) => {
     for (const file of files) {
