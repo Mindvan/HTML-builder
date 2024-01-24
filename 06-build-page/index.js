@@ -15,9 +15,7 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
   }
 
   // заменяем теги в хтмл
-
-
-  //const HTMLtags = ['header', 'articles', 'footer', 'about'];
+  const HTMLtags = ['header', 'articles', 'footer', 'about'];
   const fileTemplate = path.resolve(__dirname, 'template.html');
   const fileIndex = path.resolve(rootFolder, 'index.html');
 
@@ -25,6 +23,35 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
     if (e) {
       throw e;
     }
+
+    // fs.readFile(fileIndex, 'utf-8', (e, data) => {
+    //   if (e) {
+    //     throw e;
+    //   }
+    //
+    //   for (const HTMLtag of HTMLtags) {
+    //     const tagPath = path.resolve(
+    //       __dirname,
+    //       'components',
+    //       `${HTMLtag}.html`,
+    //     );
+    //
+    //     if (data.includes(HTMLtag)) {
+    //       fs.readFile(tagPath, 'utf-8', (e, component) => {
+    //         if (e) {
+    //           throw e;
+    //         }
+    //
+    //         data = data.replace(`{{${HTMLtag}}}`, component);
+    //
+    //         fs.writeFile(fileIndex, data, (e) => {
+    //           if (e) {
+    //             throw e;
+    //           }
+    //         });
+    //       });
+    //     }
+    //   }
 
     fs.readFile(fileIndex, 'utf-8', (e, data) => {
       if (e) {
@@ -45,13 +72,13 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
             `${tagName}.html`,
           );
 
-          if (data.includes(HTMLtag)) {
+          if (data.includes(`{{${tagName}}}`)) {
             fs.readFile(tagPath, 'utf-8', (e, component) => {
               if (e) {
                 throw e;
               }
 
-              data = data.replace(`{{${HTMLtag}}}`, component);
+              data = data.replace(`{{${tagName}}}`, component);
 
               fs.writeFile(fileIndex, data, (e) => {
                 if (e) {
@@ -60,7 +87,6 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
               });
             });
           }
-
         }
       });
     });
