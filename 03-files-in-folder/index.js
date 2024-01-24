@@ -11,7 +11,7 @@ fs.readdir(
     }
 
     for (const file of files) {
-      const filePath = path.resolve(file.path, file.name);
+      const filePath = path.resolve(__dirname, 'secret-folder', file.name);
       if (file.isFile()) {
         stat(filePath, (e, stats) => {
 
@@ -19,7 +19,7 @@ fs.readdir(
             console.log(e.message);
           }
 
-          const base = path.basename(file.name);
+          const base = path.parse(path.basename(file.name)).name;
           const ext = path.extname(file.name).replace('.', '');
           const size = stats.size;
           console.log(`${base} - ${ext} - ${Number(size / 1024).toFixed(3)}kb`);

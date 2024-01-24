@@ -15,7 +15,9 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
   }
 
   // заменяем теги в хтмл
-  const HTMLtags = ['header', 'articles', 'footer', 'about'];
+
+
+  //const HTMLtags = ['header', 'articles', 'footer', 'about'];
   const fileTemplate = path.resolve(__dirname, 'template.html');
   const fileIndex = path.resolve(rootFolder, 'index.html');
 
@@ -29,29 +31,38 @@ fs.mkdir(assetNewFolder, { recursive: true }, (e) => {
         throw e;
       }
 
-      for (const HTMLtag of HTMLtags) {
-        const tagPath = path.resolve(
-          __dirname,
-          'components',
-          `${HTMLtag}.html`,
-        );
+      const componentsPath = path.resolve(__dirname, 'components');
+      fs.readdir(componentsPath, (e, HTMLtags) => {
+        if (e) {
+          throw e;
+        }
 
-        if (data.includes(HTMLtag)) {
-          fs.readFile(tagPath, 'utf-8', (e, component) => {
-            if (e) {
-              throw e;
-            }
+        for (const HTMLtag of HTMLtags) {
+          const tagName = path.parse(path.basename(HTMLtag)).name;
+          const tagPath = path.resolve(
+            __dirname,
+            'components',
+            `${tagName}.html`,
+          );
 
-            data = data.replace(`{{${HTMLtag}}}`, component);
-
-            fs.writeFile(fileIndex, data, (e) => {
+          if (data.includes(HTMLtag)) {
+            fs.readFile(tagPath, 'utf-8', (e, component) => {
               if (e) {
                 throw e;
               }
+
+              data = data.replace(`{{${HTMLtag}}}`, component);
+
+              fs.writeFile(fileIndex, data, (e) => {
+                if (e) {
+                  throw e;
+                }
+              });
             });
-          });
+          }
+
         }
-      }
+      });
     });
 
     console.log('The templated tags are well replaced.');
